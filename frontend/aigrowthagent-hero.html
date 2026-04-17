@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Growth Agent</title>
+<link href="https://www.fontshare.com/fonts/general-sans" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: 'General Sans Medium', sans-serif;
+  background: #c0ff80;
+  background: linear-gradient(180deg, rgba(192, 255, 128, 0.484) 0%, rgba(255, 255, 255, 1) 60%);
+  overflow: hidden;
+  position: relative;
+}
+
+.bg-img {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: url('backgrownd.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ─── NAV ───────────────────────────────────────── */
+nav {
+  position: relative;
+  z-index: 10;
+  margin: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 45px;
+  background: rgba(255,255,255,53%);
+  backdrop-filter: blur(32px) saturate(1.6) brightness(1.1);
+  -webkit-backdrop-filter: blur(32px) saturate(1.6) brightness(1.1);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 15px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 -1px 0 rgba(0,0,0,0.08) inset, 0 4px 24px rgba(0,0,0,0.15);
+}
+nav::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 8%; right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6) 40%, rgba(255,255,255,0.6) 60%, transparent);
+}
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: #000000; letter-spacing: -.02em; text-decoration: none; }
+.logo png { width: 28px; height: 20px; }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { font-size: 16px; font-weight: 600; color: #000000; text-decoration: none; opacity: .7; transition: opacity .2s; }
+.nav-links a:hover { opacity: 1; }
+.nav-cta { background: #c1fb5d; color: #000000; font-weight: 700; font-size: 16px; letter-spacing: .06em; text-transform: uppercase; padding: 11px 22px; border-radius: 50px; border: none; cursor: pointer; text-decoration: none; transition: transform .15s, box-shadow .2s; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(192,251,93,0.4); }
+
+/* ─── HERO ──────────────────────────────────────── */
+.hero {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 90px);
+  padding: 40px 24px;
+}
+
+/* ─── GLASS CARD ────────────────────────────────── */
+.glass {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1060px;
+  border-radius: 15px;
+  padding: 72px 80px 64px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3) inset,
+              0 -1px 0 rgba(0, 0, 0, 0.08) inset,
+              0 40px 100px rgba(0, 0, 0, 0.11);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.glass:hover { transform: translateY(-8px); }
+
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.1) 10%,
+    rgba(191,255,128, 0.22) 30%,
+    transparent 60%
+  );
+  opacity: 0.65;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.2s ease;
+}
+.glass:hover::before { opacity: 0.85; }
+.glass::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 5%; right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), rgba(255,255,255,0.35), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+.glass > * { position: relative; z-index: 3; }
+
+h1 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; line-height: 1.2; color: rgba(1, 1, 1, 0.664); letter-spacing: -.02em; animation: up .7s .1s cubic-bezier(.16,1,.3,1) both; }
+.accent { display: block; font-size: clamp(2.8rem, 6vw, 4.0rem); font-weight: 900; line-height: 1.05; letter-spacing: -.04em; color: rgba(1, 1, 1, 0.664); animation: up .7s .2s cubic-bezier(.16,1,.3,1) both; }
+p { margin: 28px auto 0; max-width: 580px; font-size: 16px; line-height: 1.7; color: rgba(0, 0, 0, 0.523); animation: up .7s .3s cubic-bezier(.16,1,.3,1) both; }
+
+.row {
+  position: relative;
+  margin: 4px;
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.091);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  border: 1px solid rgba(167, 167, 167, 0.3);
+  border-radius: 60px;
+  padding: 6px 6px 6px 28px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07) inset, 0 -1px 0 rgba(0, 0, 0, 0.1) inset, 0 8px 32px rgba(0,0,0,0.1);
+  transition: border-color .25s, box-shadow .25s;
+}
+.row::before { content: ''; position: absolute; top: 0; left: 6%; right: 6%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22) 40%, rgba(255,255,255,0.22) 60%, transparent); }
+.row:focus-within { border-color: rgba(192,251,93,0.3); box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 -1px 0 rgba(0,0,0,0.2) inset, 0 8px 32px rgba(0,0,0,0.3), 0 0 0 3px rgba(192,251,93,0.1); }
+.row input { flex: 1; background: transparent; border: none; outline: none; font-family: 'General Sans Regular', sans-serif; font-size: 16px; color: #00000074; padding: 12px 16px; min-width: 200px; width: 100%; }
+.row input::placeholder { color: rgba(0, 0, 0, 0.534); }
+.row button { background: #C0FB5D; color: #000; border: none; border-radius: 60px; padding: 14px 32px; font-family: 'General Sans Light', sans-serif; font-weight: 700; font-size: 16px; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset; transition: transform .15s, box-shadow .2s; }
+.row button:hover { transform: translateY(-1px); box-shadow: 0 1px 0 rgba(0,0,0,0) inset, 0 6px 20px rgba(192,251,93,0.35); }
+
+.input-group {
+  display: flex;
+  max-width: 1000px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+  animation: up .7s .4s cubic-bezier(.16,1,.3,1) both;
+}
+.site-favicon {
+  width: 38px; height: 38px;
+  border-radius: 99px;
+  object-fit: contain;
+  display: none;
+  flex-shrink: 0;
+  align-self: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  transition: opacity .3s;
+}
+
+@keyframes up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<div class="bg-img"></div>
+
+<nav>
+  <a class="logo" href="#">
+    <img src="logo-aga.png" alt="AI Growth Agent" style="height:25px;width:auto;">
+    AI Growth Agent
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">CASES</a></li>
+    <li><a href="#">BLOG</a></li>
+    <li><a class="nav-cta" href="#">START RANKING</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="glass">
+
+    <h1>The moment someone asks AI who to hire
+      <span class="accent">Be the answer</span>
+    </h1>
+    <p>Discover where AI mentions your brand, understand why competitors rank above you, and let the agent do the work to get you recommended first.</p>
+    <div class="input-group">
+      <img class="site-favicon" id="faviconPreview" alt="">
+      <div class="row">
+        <input type="text" id="urlInput" placeholder="yourbrand.com" autocomplete="off" spellcheck="false">
+        <button onclick="goToDiagnosis()">get free diagnostic</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const DOMAIN_RE = /^(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9][a-zA-Z0-9\-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?)(?:\/.*)?$/;
+
+function extractDomain(value) {
+  const match = value.trim().match(DOMAIN_RE);
+  return match ? match[1].toLowerCase() : null;
+}
+
+let faviconTimer = null;
+
+function updateIndicator(value) {
+  const favicon = document.getElementById('faviconPreview');
+  const domain  = extractDomain(value);
+
+  favicon.style.display = 'none';
+
+  if (!domain) return;
+
+  clearTimeout(faviconTimer);
+  faviconTimer = setTimeout(() => {
+    favicon.onload  = () => { favicon.style.display = 'block'; };
+    favicon.onerror = () => { favicon.style.display = 'none'; };
+    // DuckDuckGo retorna 404 real quando não tem favicon — onerror funciona corretamente
+    favicon.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+  }, 600);
+}
+
+function goToDiagnosis() {
+  const input  = document.getElementById('urlInput');
+  const value  = input.value.trim();
+  const domain = extractDomain(value);
+
+  if (!domain) {
+    input.placeholder = 'Enter your website first...';
+    setTimeout(() => { input.placeholder = 'yourbrand.com'; }, 2500);
+    return;
+  }
+
+  window.location.href = `diagnosis-form.html?url=${encodeURIComponent(domain)}`;
+}
+
+document.getElementById('urlInput').addEventListener('input', e => updateIndicator(e.target.value));
+document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') goToDiagnosis(); });
+</script>
+
+<script>
+  const glass = document.querySelector('.glass');
+  if (glass) {
+    glass.addEventListener('mousemove', (e) => {
+      const rect = glass.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      glass.style.setProperty('--mouse-x', `${x}%`);
+      glass.style.setProperty('--mouse-y', `${y}%`);
+    });
+    glass.addEventListener('mouseleave', () => {
+      glass.style.setProperty('--mouse-x', '50%');
+      glass.style.setProperty('--mouse-y', '40%');
+    });
+  }
+</script>
+
+
+</body>
+</html>

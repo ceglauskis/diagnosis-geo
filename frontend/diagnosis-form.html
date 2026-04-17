@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Growth Agent — Diagnosis</title>
+<link href="https://www.fontshare.com/fonts/general-sans" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: 'General Sans Medium', sans-serif;
+  background: #c0ff80;
+  background: linear-gradient(180deg, rgba(192, 255, 128, 0.484) 0%, rgba(255, 255, 255, 1) 60%);
+  overflow-x: hidden;
+  position: relative;
+}
+
+.bg-img {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: url('backgrownd.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+nav {
+  position: relative;
+  z-index: 10;
+  margin: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 45px;
+  background: rgba(255,255,255, 53%);
+  backdrop-filter: blur(32px) saturate(1.6) brightness(1.1);
+  -webkit-backdrop-filter: blur(32px) saturate(1.6) brightness(1.1);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 15px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 -1px 0 rgba(0,0,0,0.08) inset, 0 4px 24px rgba(0,0,0,0.15);
+}
+nav::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 8%; right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6) 40%, rgba(255,255,255,0.6) 60%, transparent);
+}
+
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: #000000; letter-spacing: -.02em; text-decoration: none; }
+.logo png { width: 28px; height: 20px; }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { font-size: 16px; font-weight: 600; color: #000000; text-decoration: none; opacity: .7; transition: opacity .2s; }
+.nav-links a:hover { opacity: 1; }
+.nav-cta { background: #c1fb5d; color: #000000; font-weight: 700; font-size: 16px; letter-spacing: .06em; text-transform: uppercase; padding: 11px 22px; border-radius: 50px; border: none; cursor: pointer; text-decoration: none; transition: transform .15s, box-shadow .2s; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(192,251,93,0.4); }
+
+.hero { 
+  position: relative; 
+  z-index: 5; 
+  display: flex; 
+  align-items: 
+  flex-start; 
+  justify-content: center; 
+  min-height: calc(100vh - 90px); 
+  padding: 40px 24px 60px; }
+
+/* ── Glass card ── */
+.glass {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 15px;
+  padding: 40px 60px 48px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3) inset,
+              0 -1px 0 rgba(0, 0, 0, 0.08) inset,
+              0 40px 100px rgba(0, 0, 0, 0.11);
+  animation: reveal .6s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes reveal { from { opacity: 0; transform: translateY(20px) scale(.97); } to { opacity: 1; transform: none; } }
+.glass::before { content: ''; position: absolute; top: 0; left: 5%; right: 5%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2) 35%, rgba(255,255,255,0.2) 65%, transparent); }
+
+/* ── Steps bar ── */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.step-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.702);
+  color: rgb(37, 37, 37);
+  font-size: 16px;
+  border-radius: 50px;
+  font-weight: 600;
+  border: 1px solid rgba(37, 37, 37, 0.156);
+  box-shadow: 
+  0 0 0 1px rgba(255,255,255,0.01),
+  0 0 10px rgba(255,255,255,0.05),
+  inset 0 1px 0 rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+}
+
+.step-pill:hover {
+  transform: translateY(-2px);
+}
+
+/* Brilho extra no ícone e texto */
+.step-pill i, .link-pill svg {
+  filter: brightness(1.1);
+}
+
+.step-pill.active {
+  box-shadow:
+    0px 3px 4px 0px #C0FB5D,
+    0 8px 30px rgba(0, 0, 0, 0.3),
+    0 0 0 3px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+
+}
+.step-pill.done {
+
+}
+
+/* ── Titles ── */
+.form-title {
+  font-family: 'General Sans Semibold';
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #1e1e1e;
+  margin-bottom: 10px;
+}
+.form-sub {
+  font-size: 15px;
+  color: #1e1e1e;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+/* ── Input glass ── */
+.input-glass {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(37, 37, 37, 0.156);
+  border-radius: 50px;
+  padding: 16px 24px;
+  font-family: 'General Sans Medium', sans-serif;
+  font-size: 16px;
+  color: #1e1e1e;
+  outline: none;
+  transition: border-color .25s, box-shadow .25s;
+  margin-bottom: 12px;
+}
+.input-glass::placeholder { color: rgba(255,255,255,0.4); }
+.input-glass:focus { border-color: rgba(192,251,93,0.4); box-shadow: 0 0 0 3px rgba(192,251,93,0.1); }
+
+/* ── Select ── */
+.select-glass {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(37, 37, 37, 0.156);
+  border-radius: 50px;
+  padding: 16px 24px;
+  font-family: 'General Sans Medium', sans-serif;
+  font-size: 16px;
+  color: #1e1e1e;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  margin-bottom: 12px;
+}
+.select-glass option { background: #1a3320; color: #fff; }
+
+/* ── Radio options ── */
+.radio-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; text-align: left; }
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.597);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: 15px;
+  color: rgba(255,255,255,0.75);
+  transition: border-color .2s, background .2s;
+}
+.query-text  { font-size: 15px; color: rgba(37,37,37); line-height: 1.4; }
+.query-reason { font-size: 12px; color: rgba(37,37,37,0.35); margin-top: 3px; }
+.radio-option:hover { border-color: rgba(0, 0, 0, 0.3); }
+.radio-option.selected { border-color: rgba(0, 0, 0, 0.1); background: rgba(0, 0, 0, 0.08); color: #fff; }
+
+.radio-option input[type=radio] { display: none; }
+
+.radio-dot {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .2s;
+}
+.radio-option.selected .radio-dot {
+  border-color: rgb(37, 37, 37);
+  background: rgb(37, 37, 37);
+  
+}
+.radio-option.selected .radio-dot::after {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgb(255, 255, 255);
+}
+
+/* Write own question */
+.write-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.597);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: 14px;
+  color: rgba(37,37,37);
+  transition: border-color .2s, color .2s;
+}
+.write-option:hover { border-color: rgba(0, 0, 0, 0.3); color: rgba(37,37,37); }
+
+.write-input-wrap {
+  position: relative;
+  margin-top: 10px;
+}
+.write-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.597);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 14px 80px 14px 20px;
+  font-family: 'General Sans Medium', sans-serif;
+  font-size: 15px;
+  color: rgb(37, 37, 37);
+  outline: none;
+}
+.write-input::placeholder { color: rgba(37,37,37); }
+.char-counter {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  pointer-events: none;
+  transition: color .2s;
+}
+.char-counter.near-limit { color: #ffc83c; }
+.char-counter.at-limit    { color: #ff5050; }
+
+/* ── Buttons ── */
+.btn-primary {
+  background: #C0FB5D;
+  color: #000;
+  border: none;
+  border-radius: 60px;
+  padding: 16px 40px;
+  font-family: 'General Sans Medium', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .2s;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(192,251,93,0.35); }
+.btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* ── Loading spinner ── */
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: #C0FB5D;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 20px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Email popup overlay ── */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+}
+.overlay.open { display: flex; }
+
+.popup {
+  background: #f0f2ee;
+  border-radius: 20px;
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 520px;
+  text-align: left;
+  animation: popIn .35s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes popIn { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+
+.popup h2 { font-size: 1.3rem; font-weight: 800; color: #0d1a0d; margin-bottom: 8px; }
+.popup p { font-size: 14px; color: #444; line-height: 1.6; margin-bottom: 24px; }
+
+.popup-input {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid rgba(0,0,0,0.15);
+  border-radius: 50px;
+  padding: 14px 20px;
+  font-family: 'General Sans Medium', sans-serif;
+  font-size: 15px;
+  color: #000;
+  outline: none;
+  margin-bottom: 12px;
+  transition: border-color .2s;
+}
+.popup-input:focus { border-color: #72C751; }
+
+.btn-popup {
+  background: #C0FB5D;
+  color: #000;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-family: 'General Sans Medium', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .15s;
+}
+.btn-popup:hover { transform: translateY(-1px); }
+
+/* ── Result ── */
+.result-box {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.597);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  padding: 28px;
+  margin-top: 16px;
+  color: rgb(37, 37, 37);
+  font-size: 15px;
+  line-height: 1.9;
+  letter-spacing: 0.2px;
+  max-height: 400px;
+  overflow-y: auto;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.result-box p {
+  margin: 12px 0;
+}
+.result-box br {
+  margin: 8px 0;
+}
+.result-box::-webkit-scrollbar { width: 4px; background: transparent; }
+.result-box::-webkit-scrollbar-thumb { background: rgba(37, 37, 37, 0.2); border-radius: 4px; }
+
+.brand-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+.brand-card {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(37, 37, 37, 0.1);
+  border-radius: 0;
+  backdrop-filter: none;
+  padding: 14px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  gap: 12px;
+}
+.brand-card:last-child {
+  border-bottom: none;
+}
+.brand-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.brand-favicon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
+  flex-shrink: 0;
+  background: rgba(37, 37, 37, 0.05);
+}
+.brand-name {
+  color: rgb(37, 37, 37);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  cursor: pointer;
+  transition: text-decoration .2s;
+}
+.brand-name:hover {
+  text-decoration: underline;
+  text-decoration-color: rgb(37, 37, 37);
+  text-underline-offset: 3px;
+}
+.brand-score-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.brand-score-bar {
+  width: 80px;
+  height: 6px;
+  background: rgba(37, 37, 37, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.brand-score-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.brand-score-fill.positive { background: #7bc127; }
+.brand-score-fill.neutral  { background: #d4a800; }
+.brand-score-fill.negative { background: #d43b3b; }
+.brand-score-num {
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 28px;
+  text-align: right;
+}
+.brand-score-num.positive { color: #5a8a1f; }
+.brand-score-num.neutral  { color: #a08000; }
+.brand-score-num.negative { color: #c41414; }
+
+/* ── Step 5 Result styling ── */
+#step5 .form-title { color: rgb(37, 37, 37); }
+#step5 .form-sub { color: rgba(37, 37, 37, 0.65); }
+
+/* ── CTA block ── */
+.cta-block {
+  margin-top: 40px;
+  padding: 32px 36px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(192,251,93,0.1) 0%, rgba(192,251,93,0.05) 100%);
+  border: 2px solid rgba(192,251,93,0.3);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: 0 8px 32px rgba(192,251,93,0.1);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.cta-block:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 48px rgba(192,251,93,0.15);
+}
+.cta-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(37, 37, 37);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+.cta-btn {
+  text-decoration: none;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #C0FB5D 0%, #a8d546 100%);
+  box-shadow: 0 4px 16px rgba(192,251,93,0.3);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(192,251,93,0.4);
+}
+
+/* ── Utility ── */
+.hidden { display: none !important; }
+.mt16 { margin-top: 16px; }
+.section-label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(37, 37, 37, 0.5); margin-bottom: 12px; text-align: left; }
+</style>
+</head>
+<body>
+
+<div class="bg-img"></div>
+
+<!-- Nav -->
+<nav>
+  <a class="logo" href="#">
+  <img src="logo-aga.png" alt="AI Growth Agent" style="height: 25px; width: auto;">
+  AI Growth Agent
+</a>
+  <ul class="nav-links">
+    <li><a href="#">CASES</a></li>
+    <li><a href="#">BLOG</a></li>
+    <li><a class="nav-cta" href="#">START RANKING</a></li>
+  </ul>
+</nav>
+
+<!-- DEBUG PANEL (remover depois) -->
+<div id="debugPanel" style="display:none; position:fixed; bottom:20px; right:20px; background:#222; color:#0f0; padding:15px; border-radius:8px; font-size:12px; font-family:monospace; z-index:999; max-width:200px;">
+  <div style="margin-bottom:10px; font-weight:bold;">🐛 DEBUG</div>
+  <button onclick="debugGoStep(1)" style="display:block; width:100%; padding:6px; margin:3px 0; background:#0f0; color:#000; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">→ Step 1</button>
+  <button onclick="debugGoStep(3)" style="display:block; width:100%; padding:6px; margin:3px 0; background:#0f0; color:#000; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">→ Step 3 (Queries)</button>
+  <button onclick="debugGoStep(5)" style="display:block; width:100%; padding:6px; margin:3px 0; background:#0f0; color:#000; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">→ Step 5 (Result)</button>
+  <button onclick="document.getElementById('debugPanel').style.display='none'" style="display:block; width:100%; padding:6px; margin:3px 0; background:#555; color:#fff; border:none; border-radius:4px; cursor:pointer;">Fechar</button>
+</div>
+
+<!-- Email popup -->
+<div class="overlay" id="emailOverlay">
+  <div class="popup">
+    <h2>Your diagnosis is ready 🎯</h2>
+    <p>Leave your email to unlock the full result — we'll also send you a copy with the complete analysis.</p>
+    <input class="popup-input" type="email" id="emailInput" placeholder="you@yourcompany.com">
+    <br>
+    <button class="btn-popup" onclick="submitEmail()">See full result →</button>
+  </div>
+</div>
+
+<!-- Main -->
+<section class="hero">
+  <div class="glass">
+
+    <!-- Steps bar -->
+    <div class="steps">
+      <div class="step-pill active" id="pill-link"><img src="icon-web.png" alt=""> Link</div>
+      <div class="step-pill" id="pill-query"><img src="icon-query.png" alt=""> Query</div>
+      <div class="step-pill" id="pill-gemini"><img src="icon-gemini.png" alt=""> Gemini</div>
+      <div class="step-pill" id="pill-result"><img src="icon-result.png" alt=""> Result</div>
+    </div>
+
+    <!-- ── STEP 1: Link ── -->
+    <div id="step1">
+      <div class="form-title">AI Growth Agent Diagnosis</div>
+      <div class="form-sub">When someone asks AI who to hire in your market.<br>Are you even mentioned?</div>
+      <input class="input-glass" type="text" id="urlInput" placeholder="yourbrand.com">
+      <select class="select-glass" id="langSelect">
+        <option value="" disabled selected>Language</option>
+        <option value="pt">Portuguese</option>
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+      </select>
+      <div class="mt16">
+        <button class="btn-primary" onclick="goStep2()">Analyze</button>
+      </div>
+    </div>
+
+    <!-- ── STEP 2: Query loading ── -->
+    <div id="step2" class="hidden">
+      <div id="step2Loading">
+        <div class="form-title">Simulating queries...</div>
+        <div class="form-sub">We are analysing your brand to simulate relevant queries</div>
+        <div class="spinner"></div>
+      </div>
+      <div id="step2Error" style="display:none;">
+        <div class="form-title">Something went wrong</div>
+        <div class="form-sub">We couldn't generate the queries. This may be a temporary issue.</div>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:24px;">
+          <button class="btn-main" onclick="retryQueries()" style="padding:14px 32px;">Try again</button>
+          <button class="btn-main" onclick="show('step1'); setPill('link');" style="padding:14px 32px; background:rgba(255,255,255,0.15); color:#1e1e1e;">Go back</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STEP 3: Choose query ── -->
+    <div id="step3" class="hidden">
+      <div class="form-title">Choose a query</div>
+      <div class="form-sub">Select a query to test how AIs respond about your segment.</div>
+      <div class="radio-list" id="queryList"></div>
+      <div class="write-option" id="writeToggle" onclick="toggleWrite()">✏️ Write own question</div>
+      <div class="write-input-wrap hidden" id="customQueryWrap">
+        <input class="write-input" id="customQuery" placeholder="Type your question here..." maxlength="200">
+        <span class="char-counter" id="charCounter">0 / 200</span>
+      </div>
+      <div class="mt16">
+        <button class="btn-primary" onclick="goStep4()">Continue</button>
+      </div>
+    </div>
+
+    <!-- ── STEP 4: Asking Gemini loading ── -->
+    <div id="step4" class="hidden">
+      <div id="step4Loading">
+        <div class="form-title">Asking Gemini...</div>
+        <div class="form-sub">We are asking your query and analyzing results (1–2 minutes).</div>
+        <div class="spinner"></div>
+      </div>
+      <div id="step4Error" style="display:none;">
+        <div class="form-title">Analysis failed</div>
+        <div class="form-sub">We couldn't complete the analysis. This may be a temporary issue.</div>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:24px;">
+          <button class="btn-main" onclick="retryAnalysis()" style="padding:14px 32px;">Try again</button>
+          <button class="btn-main" onclick="show('step3'); setPill('query');" style="padding:14px 32px; background:rgba(255,255,255,0.15); color:#1e1e1e;">Go back</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STEP 5: Result ── -->
+    <div id="step5" class="hidden">
+      <div class="form-title" id="resultTitle">Diagnosis complete</div>
+      <div class="form-sub" id="resultSub"></div>
+      <div class="section-label">Gemini's response</div>
+      <div class="result-box" id="resultText"></div>
+      <div class="section-label mt16">Brands mentioned</div>
+      <div class="brand-grid" id="brandGrid"></div>
+      <div class="cta-block">
+        <p class="cta-text" id="ctaText">Ready to appear in AI recommendations?</p>
+        <a class="btn-primary cta-btn" id="ctaBtn" href="https://cal.com/team/aigrowthagent/demo" target="_blank">START RANKING</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+
+// ==================== CONFIGURAÇÃO ====================
+const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? 'http://localhost:8080/api/diagnosis'
+  : `${window.location.origin}/api/diagnosis`;
+
+// ==================== STATE GLOBAL ====================
+let currentDiagnosisId = null;
+let pendingResult = null;
+const state = { url: '', lang: '', query: '', email: '' };
+
+// ── Pré-preenche URL vinda da página principal ─────────
+const params = new URLSearchParams(window.location.search);
+const preUrl = params.get('url');
+if (preUrl) {
+  state.url = preUrl;
+  document.getElementById('urlInput').value = preUrl;
+}
+
+// ==================== FUNÇÃO AUXILIAR DE API ====================
+async function apiCall(endpoint, options = {}, timeoutMs = 60000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      console.error('Timeout na API:', endpoint);
+      throw new Error('Request timed out');
+    }
+    console.error('Erro na API:', error);
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// ==================== STEP 1 → Iniciar Diagnosis ====================
+async function goStep2() {
+  const url = document.getElementById('urlInput').value.trim();
+  const lang = document.getElementById('langSelect').value;
+
+  if (!url) return alert('Please enter your website URL.');
+  if (!lang) return alert('Please select a language.');
+
+  state.url = url;
+  state.lang = lang;
+
+  startDiagnosis();
+}
+
+// ==================== Submit Email ====================
+async function submitEmail() {
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return alert('Please enter a valid email.');
+  }
+
+  state.email = email;
+  document.getElementById('emailOverlay').classList.remove('open');
+
+  // Envia email ao backend (fire-and-forget, não bloqueia o resultado)
+  try {
+    await apiCall('/email', {
+      method: 'POST',
+      body: JSON.stringify({
+        diagnosisId: currentDiagnosisId,
+        email: email
+      })
+    });
+  } catch (e) {
+    console.warn('Falha ao salvar email no backend:', e);
+  }
+
+  // Agora sim renderiza o resultado que estava seguro
+  renderResult(pendingResult);
+}
+
+// ==================== Chamar Backend - Start Diagnosis ====================
+async function startDiagnosis() {
+  try {
+    const response = await apiCall('/start', {
+      method: 'POST',
+      body: JSON.stringify({
+        domain: state.url,
+        email: state.email,
+        clientBrandName: state.url,
+        language: state.lang
+      })
+    });
+
+    currentDiagnosisId = response.diagnosisId;
+    console.log('Diagnóstico criado:', response);
+
+    setPill('query');
+    show('step2');
+
+    await loadQueries();        // Carrega as queries
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// ==================== Carregar Queries ====================
+async function loadQueries() {
+  if (!currentDiagnosisId) {
+    console.error("diagnosisId não encontrado");
+    return;
+  }
+
+  // Mostra loading, esconde erro
+  document.getElementById('step2Loading').style.display = '';
+  document.getElementById('step2Error').style.display = 'none';
+
+  try {
+    console.log("Buscando queries para diagnosisId:", currentDiagnosisId);
+
+    const queries = await apiCall(`/${currentDiagnosisId}/queries`, {}, 45000);
+
+    console.log("Queries recebidas:", queries);
+
+    if (!queries || queries.length === 0) {
+      throw new Error('No queries returned');
+    }
+
+    const list = document.getElementById('queryList');
+    list.innerHTML = '';
+
+    queries.forEach(q => {
+      const div = document.createElement('label');
+      div.className = 'radio-option';
+      div.innerHTML = `
+        <input type="radio" name="q">
+        <span class="radio-dot"></span>
+        <span>
+          <div class="query-text">${q.text}</div>
+          ${q.reason ? `<div class="query-reason">${q.reason}</div>` : ''}
+        </span>`;
+
+      div.addEventListener('click', () => {
+        document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+        div.classList.add('selected');
+        state.query = q.text;
+      });
+
+      list.appendChild(div);
+    });
+
+    // Auto-seleciona a primeira
+    const first = list.querySelector('.radio-option');
+    if (first) first.classList.add('selected');
+
+    show('step3');
+    setPill('query');
+
+  } catch (error) {
+    console.error("Erro ao carregar queries:", error);
+    document.getElementById('step2Loading').style.display = 'none';
+    document.getElementById('step2Error').style.display = '';
+  }
+}
+
+function retryQueries() {
+  loadQueries();
+}
+
+// ==================== STEP 3 → Analisar ====================
+async function goStep4() {
+  const custom = document.getElementById('customQuery').value.trim();
+  if (custom) state.query = custom;
+
+  if (!state.query) return alert('Please select or write a query.');
+
+  setPill('gemini');
+  show('step4');
+
+  // Mostra loading, esconde erro
+  document.getElementById('step4Loading').style.display = '';
+  document.getElementById('step4Error').style.display = 'none';
+
+  try {
+    const result = await apiCall('/analyze', {
+      method: 'POST',
+      body: JSON.stringify({
+        diagnosisId: currentDiagnosisId,
+        selectedQuery: state.query
+      })
+    }, 120000);
+
+    // Segura o resultado e pede o email antes de mostrar
+    pendingResult = result;
+    document.getElementById('emailOverlay').classList.add('open');
+    document.getElementById('emailInput').focus();
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById('step4Loading').style.display = 'none';
+    document.getElementById('step4Error').style.display = '';
+  }
+}
+
+function retryAnalysis() {
+  goStep4();
+}
+
+// ==================== Helper: Extrair nome da empresa do domínio ====================
+function extractCompanyName(domain) {
+  // Remove TLD (.com.br, .com, .br, etc)
+  const name = domain.split('.').slice(0, -1).join('.').split('.')[0];
+  // Converte "resultados-digitais" → "Resultados Digitais"
+  return name
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+// ==================== Renderizar Resultado ====================
+function renderResult(data) {
+  setPill('result');
+  show('step5');
+
+  document.getElementById('resultTitle').textContent =
+    data.companyWasMentioned ? '✅ Your brand was mentioned!' : '❌ Your brand was not mentioned';
+
+  document.getElementById('resultSub').textContent = `Query tested: "${state.query}"`;
+
+  // CTA dinâmico baseado no resultado
+  document.getElementById('ctaText').textContent = data.companyWasMentioned
+    ? 'Your brand is already being recommended. Let\'s improve your position.'
+    : 'Your brand is not showing up yet. Let\'s change that.';
+  document.getElementById('ctaBtn').textContent = data.companyWasMentioned
+    ? 'IMPROVE YOUR RANKING'
+    : 'GET RECOMMENDED BY AI';
+
+  // Formata a resposta do Gemini com quebras de linha e melhor legibilidade
+  let geminiText = data.geminiResponse || 'Sem resposta da IA.';
+
+  // Remove os scores do Gemini (ex: "dominio.com (score: 85)" → "dominio.com")
+  geminiText = geminiText.replace(/\s*\(score:\s*\d+\)/gi, '');
+
+  const formattedText = geminiText
+    .split('\n')
+    .filter(line => line.trim() !== '')
+    .map(line => line.trim())
+    .join('<br><br>');
+
+  document.getElementById('resultText').innerHTML = formattedText;
+
+  const grid = document.getElementById('brandGrid');
+  grid.innerHTML = '';
+
+  if (data.mentionedBrands && data.mentionedBrands.length > 0) {
+    data.mentionedBrands.forEach(b => {
+      const cls = b.sentiment === 'POSITIVE' ? 'positive' :
+                 b.sentiment === 'NEGATIVE' ? 'negative' : 'neutral';
+
+      const companyName = extractCompanyName(b.brandName);
+      const faviconUrl = `https://icons.duckduckgo.com/ip3/${b.brandName}.ico`;
+
+      const brandUrl = `https://${b.brandName}`;
+
+      grid.innerHTML += `
+        <div class="brand-card">
+          <div class="brand-info">
+            <img class="brand-favicon" src="${faviconUrl}" alt="${companyName}" onerror="this.style.display='none'">
+            <a class="brand-name" href="${brandUrl}" target="_blank" rel="noopener noreferrer">${companyName}</a>
+          </div>
+          <div class="brand-score-wrap">
+            <div class="brand-score-bar">
+              <div class="brand-score-fill ${cls}" style="width:${b.score}%"></div>
+            </div>
+            <span class="brand-score-num ${cls}">${b.score}</span>
+          </div>
+        </div>`;
+    });
+  }
+}
+
+// ==================== Funções auxiliares ====================
+function setPill(active) {
+  const pills = { link:'pill-link', query:'pill-query', gemini:'pill-gemini', result:'pill-result' };
+  const order = ['link','query','gemini','result'];
+  const idx = order.indexOf(active);
+  order.forEach((k,i) => {
+    const el = document.getElementById(pills[k]);
+    el.classList.remove('active','done');
+    if (i < idx) el.classList.add('done');
+    else if (i === idx) el.classList.add('active');
+  });
+}
+
+function show(id) {
+  ['step1','step2','step3','step4','step5'].forEach(s => {
+    document.getElementById(s).classList.toggle('hidden', s !== id);
+  });
+  const g = document.querySelector('.glass');
+  if (g) {
+    g.style.animation = 'none';
+    g.offsetHeight;
+    g.style.animation = '';
+  }
+}
+
+// Mantém as funções que já existiam
+let writeListenerAdded = false;
+function toggleWrite() {
+  const wrap    = document.getElementById('customQueryWrap');
+  const input   = document.getElementById('customQuery');
+  const counter = document.getElementById('charCounter');
+
+  wrap.classList.toggle('hidden');
+
+  if (!wrap.classList.contains('hidden')) {
+    document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+    input.focus();
+    if (!writeListenerAdded) {
+      writeListenerAdded = true;
+      input.addEventListener('input', () => {
+        const len = input.value.length;
+        state.query = input.value;
+        counter.textContent = `${len} / 200`;
+        counter.classList.toggle('near-limit', len >= 160 && len < 200);
+        counter.classList.toggle('at-limit',   len >= 200);
+      });
+    }
+  }
+}
+
+
+</script>
+
+</body>
+</html>
