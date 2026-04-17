@@ -1,4 +1,4 @@
-# AI Growth Agent
+# GEO diagnosis
 
 Descobre se sua marca aparece quando IAs respondem perguntas sobre sua categoria.
 
@@ -184,7 +184,6 @@ backend/src/main/java/
 
 - **Sem persistência** — dados vivem em memória, reiniciou perdeu
 - **Single AI provider** — só Gemini por enquanto (ChatGPT e Perplexity no roadmap)
-- **Sem frontend** — API-only, ideal pra integrar ou testar via Postman/curl
 - **Sem rate limiting** — sem proteção contra abuso em produção
 - **Sem auth** — endpoints abertos
 
@@ -197,4 +196,4 @@ backend/src/main/java/
 - [ ] Frontend com dashboard de resultados
 - [ ] Histórico de diagnósticos por domínio
 - [ ] Comparativo temporal (como sua visibilidade evolui)
-- [ ] Rate limiting e autenticação
+- [ ] Rate limiting e proteção
